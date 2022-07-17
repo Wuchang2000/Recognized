@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -20,6 +21,7 @@ import org.tensorflow.lite.support.image.ImageProcessor
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.image.ops.ResizeOp
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
+import kotlin.math.max
 
 
 class MainActivity : AppCompatActivity() {
@@ -32,7 +34,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var imgFoto: ImageView
     private lateinit var btn_camara: Button
-    private lateinit var text_output: TextView
+    private lateinit var text_output1: TextView
+    private lateinit var text_output2: TextView
+    private lateinit var text_output3: TextView
 
     var foto: Uri? = null
 
@@ -44,7 +48,9 @@ class MainActivity : AppCompatActivity() {
 
         imgFoto = binding.imgFoto
         btn_camara = binding.btnCamara
-        text_output = binding.textOutput
+        text_output1 = binding.textOutput1
+        text_output2 = binding.textOutput2
+        text_output3 = binding.textOutput3
         camaraClick()
     }
 
@@ -103,8 +109,15 @@ class MainActivity : AppCompatActivity() {
         val outputFeature0 = outputs.outputFeature0AsTensorBuffer
         val labels = outputFeature0.floatArray
         val max = labels.maxOrNull()
-        val predict = labels.indexOfFirst { it == max }
-        text_output.text = verduras[predict]
+        val sorted = outputFeature0.floatArray
+        sorted.sortDescending()
+        val indices : MutableList<Int> = mutableListOf()
+        for (i in 0..2){
+            indices.add(labels.indexOfFirst { it == sorted[i] })
+        }
+        text_output1.text = verduras[indices[0]]+" "+(labels[indices[0]]*100).toInt()+"%"
+        text_output2.text = verduras[indices[1]]+" "+(labels[indices[1]]*100).toInt()+"%"
+        text_output3.text = verduras[indices[2]]+" "+(labels[indices[2]]*100).toInt()+"%"
         // Releases model resources if no longer used.
         model.close()
     }
