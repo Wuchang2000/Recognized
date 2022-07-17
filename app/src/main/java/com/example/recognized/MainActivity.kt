@@ -108,7 +108,6 @@ class MainActivity : AppCompatActivity() {
         val outputs = model.process(inputFeature0)
         val outputFeature0 = outputs.outputFeature0AsTensorBuffer
         val labels = outputFeature0.floatArray
-        val max = labels.maxOrNull()
         val sorted = outputFeature0.floatArray
         sorted.sortDescending()
         val indices : MutableList<Int> = mutableListOf()
