@@ -57,9 +57,8 @@ class MainActivity : AppCompatActivity() {
     private fun camaraClick(){
         btn_camara.setOnClickListener(){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED
-                    || checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
-                    val permisosCamara = arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED){
+                    val permisosCamara = arrayOf(Manifest.permission.CAMERA)
                     requestPermissions(permisosCamara, REQUEST_CAMARA)
                 }else
                     takePicturePreview.launch(null)
