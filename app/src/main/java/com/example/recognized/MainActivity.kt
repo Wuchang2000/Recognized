@@ -13,7 +13,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.recognized.databinding.ActivityMainBinding
-import com.example.recognized.ml.Model7068
+import com.example.recognized.ml.Model7169
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.common.ops.NormalizeOp
 import org.tensorflow.lite.support.image.ImageProcessor
@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun prediccion(bitmap: Bitmap){
-        val model = Model7068.newInstance(this)
+        val model = Model7169.newInstance(this)
 
         // Creates inputs for reference.
         var image = TensorImage.fromBitmap(bitmap)
