@@ -15,6 +15,7 @@
         android:textSize="21sp"
         app:layout_constraintBottom_toTopOf="@+id/btn_Camara"
         app:layout_constraintEnd_toEndOf="@+id/text_output2"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/text_output2"
         app:layout_constraintTop_toBottomOf="@+id/text_format" />
 
