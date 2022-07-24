@@ -8,57 +8,44 @@
 
     <TextView
         android:id="@+id/text_output3"
-        android:layout_width="228dp"
-        android:layout_height="35dp"
+        android:layout_width="232dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="36dp"
         android:text="Resultado"
         android:textColor="@android:color/holo_red_dark"
         android:textSize="21sp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_Camara"
-        app:layout_constraintEnd_toEndOf="@+id/text_output2"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/text_output2"
+        app:layout_constraintStart_toEndOf="@+id/text_format"
         app:layout_constraintTop_toBottomOf="@+id/text_format" />
 
     <TextView
         android:id="@+id/text_output2"
-        android:layout_width="0dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="41dp"
+        android:layout_width="232dp"
+        android:layout_height="31dp"
+        android:layout_marginTop="67dp"
         android:layout_marginEnd="41dp"
-        android:layout_marginBottom="42dp"
+        android:layout_marginBottom="68dp"
         android:text="Resultado"
         android:textColor="@android:color/holo_red_dark"
         android:textSize="21sp"
         app:layout_constraintBottom_toBottomOf="@+id/text_output3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/text_format"
-        app:layout_constraintTop_toTopOf="@+id/text_output1" />
-
-    <ImageView
-        android:id="@+id/imgFoto"
-        android:layout_width="281dp"
-        android:layout_height="375dp"
-        android:layout_marginStart="54dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="54dp"
-        android:layout_marginBottom="19dp"
-        app:layout_constraintBottom_toTopOf="@+id/text_output1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars[11]" />
+        app:layout_constraintTop_toTopOf="@+id/text_output1"
+        app:layout_constraintVertical_bias="0.425" />
 
     <TextView
         android:id="@+id/text_output1"
-        android:layout_width="232dp"
-        android:layout_height="32dp"
+        android:layout_width="230dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="25dp"
         android:text="Resultado"
         android:textColor="@android:color/holo_red_dark"
         android:textSize="21sp"
         app:layout_constraintBottom_toTopOf="@+id/text_format"
-        app:layout_constraintEnd_toEndOf="@+id/text_output2"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/text_output2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/text_format"
         app:layout_constraintTop_toBottomOf="@+id/imgFoto" />
 
     <TextView
@@ -67,7 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="35dp"
         android:layout_marginEnd="36dp"
-        android:layout_marginBottom="23dp"
+        android:layout_marginBottom="47dp"
         android:text="Output:"
         android:textColor="@color/black"
         android:textSize="21sp"
@@ -76,16 +63,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_output1" />
 
-    <Button
-        android:id="@+id/btn_Camara"
-        android:layout_width="399dp"
-        android:layout_height="56dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginEnd="6dp"
-        android:text="Cámara"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <FrameLayout
+        android:id="@+id/imgFoto"
+        android:layout_width="319dp"
+        android:layout_height="405dp"
+        android:layout_marginStart="34dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="34dp"
+        android:layout_marginBottom="55dp"
+        app:layout_constraintBottom_toTopOf="@+id/text_output1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_output3" />
+        app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

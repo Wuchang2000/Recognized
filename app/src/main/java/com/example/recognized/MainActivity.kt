@@ -3,15 +3,13 @@ package com.example.recognized
 import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.net.Uri
+import android.hardware.Camera
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.ImageView
+import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.recognized.databinding.ActivityMainBinding
 import com.example.recognized.ml.Model7169
@@ -21,8 +19,6 @@ import org.tensorflow.lite.support.image.ImageProcessor
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.image.ops.ResizeOp
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
-import kotlin.math.max
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,14 +27,13 @@ class MainActivity : AppCompatActivity() {
     private val verduras = arrayOf("ajo", "cebolla", "chicharo", "chicoria", "chile", "col", "coliflor", "espinaca",
         "jengibre", "jitomate", "lechuga", "maiz", "nabo", "papa", "pepino", "pimiento", "zanahoria")
 
+    private lateinit var camera: Camera
+    private lateinit var showCamera: showCamera
     private lateinit var binding: ActivityMainBinding
-    private lateinit var imgFoto: ImageView
-    private lateinit var btn_camara: Button
+    private lateinit var imgFoto: FrameLayout
     private lateinit var text_output1: TextView
     private lateinit var text_output2: TextView
     private lateinit var text_output3: TextView
-
-    var foto: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,24 +42,31 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         imgFoto = binding.imgFoto
-        btn_camara = binding.btnCamara
         text_output1 = binding.textOutput1
         text_output2 = binding.textOutput2
         text_output3 = binding.textOutput3
-        camaraClick()
+        permisos()
+        val hilo = Thread(Runnable {
+            while (true){
+                if (showCamera.foto != null){
+                    prediccion(showCamera.foto)
+                }
+                else
+                    Thread.sleep(5000)
+            }
+        })
+        hilo.start()
     }
 
-    private fun camaraClick(){
-        btn_camara.setOnClickListener(){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED){
-                    val permisosCamara = arrayOf(Manifest.permission.CAMERA)
-                    requestPermissions(permisosCamara, REQUEST_CAMARA)
-                }else
-                    takePicturePreview.launch(null)
+    private fun permisos(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED){
+                val permisosCamara = arrayOf(Manifest.permission.CAMERA)
+                requestPermissions(permisosCamara, REQUEST_CAMARA)
             }else
-                takePicturePreview.launch(null)
-        }
+                camara()
+        }else
+            camara()
     }
 
     override fun onRequestPermissionsResult(
@@ -76,18 +78,17 @@ class MainActivity : AppCompatActivity() {
         when(requestCode){
             REQUEST_CAMARA -> {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    takePicturePreview.launch(null)
+                    camara()
                 else
                     Toast.makeText(applicationContext, "No se pudo acceder a la cámara", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private val takePicturePreview = registerForActivityResult(ActivityResultContracts.TakePicturePreview()){ bitmap ->
-        if (bitmap != null){
-            imgFoto.setImageBitmap(bitmap)
-            prediccion(bitmap)
-        }
+    private fun camara(){
+        camera = Camera.open()
+        showCamera = showCamera(this, camera)
+        imgFoto.addView(showCamera)
     }
 
     private fun prediccion(bitmap: Bitmap){
